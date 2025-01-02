@@ -4,6 +4,7 @@ import (
 	"clima-cep/internal/domain"
 	"encoding/json"
 	"log"
+	"math"
 	"net/http"
 
 	"github.com/gorilla/mux"
@@ -46,9 +47,10 @@ func handleClimate(w http.ResponseWriter, r *http.Request) {
 
 	response := TemperatureResponse{
 		TempC: climate.TempC,
-		TempF: climate.TempF,
+		TempF: math.Round(climate.TempF*100) / 100,
 		TempK: climate.TempK,
 	}
+
 	w.Header().Set("Content-Type", "application/json")
 	json.NewEncoder(w).Encode(response)
 }
